@@ -1,0 +1,16 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES5",
+    "module": "commonjs",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "declaration": true
+  },
+  "files": [
+    "./index.ts"
+  ]
+}

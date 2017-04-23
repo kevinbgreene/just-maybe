@@ -1,0 +1,14 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "rootDir": ".",
+    "outDir": "./testing",
+    "noImplicitAny": true,
+    "noUnusedLocals": true
+  },
+  "files": [
+    "./tests/maybe.spec.ts"
+  ]
+}

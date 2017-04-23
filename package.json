@@ -1,0 +1,25 @@
+{
+  "name": "just-maybe",
+  "version": "1.0.0",
+  "description": "A basic Maybe type",
+  "main": "./dist/bundles/just-maybe.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist/; tsc -p ./tsconfig.json; webpack --config webpack.config.js;",
+    "build:test": "rm -rf ./testing/; tsc -p ./tsconfig.test.json;",
+    "test": "npm run build:test; mocha ./testing/tests/maybe.spec.js;"
+  },
+  "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "@types/chai": "3.5.0",
+    "@types/mocha": "2.2.41",
+    "chai": "3.5.0",
+    "mocha": "3.2.0",
+    "typescript": "2.2.2",
+    "webpack": "2.4.1"
+  }
+}
