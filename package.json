@@ -1,6 +1,6 @@
 {
   "name": "just-maybe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A basic Maybe type",
   "main": "./dist/bundles/just-maybe.js",
   "typings": "./dist/index.d.ts",
@@ -13,6 +13,12 @@
   "license": "MIT",
   "files": [
     "dist/"
+  ],
+  "keywords": [
+    "monad",
+    "functional",
+    "optional",
+    "maybe"
   ],
   "devDependencies": {
     "@types/chai": "3.5.0",
