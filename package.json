@@ -1,6 +1,6 @@
 {
   "name": "just-maybe",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A basic Maybe type",
   "main": "./dist/bundles/just-maybe.js",
   "typings": "./dist/index.d.ts",
