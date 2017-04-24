@@ -177,7 +177,7 @@ export class Maybe<T> {
    * @returns {Boolean}
    */
   isJust(): boolean {
-    return false;
+    return true;
   }
 }
 

@@ -185,4 +185,60 @@ describe('Maybe', function() {
       assert.equal(actual, expected);
     });
   });
+
+  describe('isJust', function() {
+    it('should return true for a Just', function() {
+      const maybe: Maybe<number> =
+        Maybe.just(5);
+
+      const actual: boolean =
+        maybe.isJust();
+
+      const expected: boolean =
+        true;
+
+      assert.equal(actual, expected);
+    });
+
+    it('should return false for a Nothing', function() {
+      const maybe: Maybe<number> =
+        Maybe.nothing<number>();
+
+      const actual: boolean =
+        maybe.isJust();
+
+      const expected: boolean =
+        false;
+
+      assert.equal(actual, expected);
+    });
+  });
+
+  describe('isNothing', function() {
+    it('should return false for a Just', function() {
+      const maybe: Maybe<number> =
+        Maybe.just(5);
+
+      const actual: boolean =
+        maybe.isNothing();
+
+      const expected: boolean =
+        false;
+
+      assert.equal(actual, expected);
+    });
+
+    it('should return true for a Nothing', function() {
+      const maybe: Maybe<number> =
+        Maybe.nothing<number>();
+
+      const actual: boolean =
+        maybe.isNothing();
+
+      const expected: boolean =
+        true;
+
+      assert.equal(actual, expected);
+    });
+  });
 });
