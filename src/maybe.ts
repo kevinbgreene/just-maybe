@@ -6,7 +6,7 @@ export type MaybePredicate<T> =
   (val: T) => boolean;
 
 
-export class Maybe<T> {
+export abstract class Maybe<T> {
   protected _value: T;
 
   static fromNullable<T>(val: T): Maybe<T> {
@@ -21,14 +21,40 @@ export class Maybe<T> {
     return new Nothing<T>();
   }
 
-  /**
-   * Returns a new Just wrapping the given value
-   *
-   * @param val The value to place in the Just
-   * @returns {}
-   */
   static just<T>(val: T): Just<T> {
     return new Just<T>(val);
+  }
+
+  abstract ap<A,B>(this: Maybe<(val: A) => B>, maybe: Maybe<A>): Maybe<B>;
+
+  abstract join<A>(this: Maybe<Maybe<A>>): Maybe<A>;
+
+  abstract fork<B>(justFn: (val: T) => B, _: () => B): B;
+
+  abstract map<B>(mapping: MaybeMapping<T,B>): Maybe<B>;
+
+  abstract chain<B>(mapping: (val: T) => Maybe<B>): Maybe<B>;
+
+  abstract filter(predicate: MaybePredicate<T>): Maybe<T>;
+
+  abstract get(): T;
+
+  abstract getOrElse(defaultValue: T): T;
+
+  abstract isJust(): boolean;
+
+  abstract isNothing(): boolean;
+}
+
+
+export class Just<T> extends Maybe<T> {
+  static create<B>(val: B): Just<B> {
+    return new Just<B>(val);
+  }
+
+  constructor(val: T) {
+    super();
+    this._value = val;
   }
 
   toString(): string {
@@ -42,11 +68,11 @@ export class Maybe<T> {
    *
    * @name ap
    * @method
-   * @memberof Maybe#
-   * @param {Maybe} maybe
-   * @returns {Maybe}
+   * @memberof Frampton.Data.Maybe#
+   * @param {Frampton.Data.Maybe} mb
+   * @returns {Frampton.Data.Maybe}
    */
-  ap<A,B>(this: Just<(val: A) => B>, maybe: Maybe<A>): Maybe<B> {
+  ap<A,B>(this: Maybe<(val: A) => B>, maybe: Maybe<A>): Maybe<B> {
     const self: Just<(val: A) =>B> = this;
     if (maybe.isJust()) {
       return new Just<B>(self._value((<Just<A>>maybe)._value));
@@ -62,8 +88,8 @@ export class Maybe<T> {
    *
    * @name join
    * @method
-   * @memberof Maybe#
-   * @returns {Maybe}
+   * @memberof Frampton.Data.Maybe#
+   * @returns {Frampton.Data.Maybe}
    */
   join<A>(this: Maybe<Maybe<A>>): Maybe<A> {
     return this.get();
@@ -72,7 +98,7 @@ export class Maybe<T> {
   /**
    * @name fork
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @param {Function} justFn Function to call with value of Just
    * @param {Function} nothingFn Function to call with value of Nothing
    * @returns {*} The return value of the matching function
@@ -88,9 +114,9 @@ export class Maybe<T> {
    *
    * @name map
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @param {Function} mapping Function used to map value of Maybe
-   * @returns {Maybe}
+   * @returns {Frampton.Data.Maybe}
    */
   map<B>(mapping: MaybeMapping<T,B>): Maybe<B> {
     return new Just<B>(mapping(this._value));
@@ -103,9 +129,9 @@ export class Maybe<T> {
    *
    * @name chain
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @param {Function} mapping Function used to create new Maybe
-   * @returns {Maybe}
+   * @returns {Frampton.Data.Maybe}
    */
   chain<B>(mapping: (val: T) => Maybe<B>): Maybe<B> {
     return this.map(mapping).join();
@@ -118,9 +144,9 @@ export class Maybe<T> {
    *
    * @name filter
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @param {Function} predicate Function used to test value
-   * @returns {Maybe}
+   * @returns {Frampton.Data.Maybe}
    */
   filter(predicate: MaybePredicate<T>): Maybe<T> {
     if (predicate(this._value)) {
@@ -137,7 +163,7 @@ export class Maybe<T> {
    *
    * @name get
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @returns {*}
    */
   get(): T {
@@ -149,7 +175,7 @@ export class Maybe<T> {
    *
    * @name getOrElse
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @returns {*}
    */
   getOrElse(_: T): T {
@@ -161,7 +187,7 @@ export class Maybe<T> {
    *
    * @name isNothing
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @returns {Boolean}
    */
   isNothing(): boolean {
@@ -173,23 +199,11 @@ export class Maybe<T> {
    *
    * @name isJust
    * @method
-   * @memberof Maybe#
+   * @memberof Frampton.Data.Maybe#
    * @returns {Boolean}
    */
   isJust(): boolean {
     return true;
-  }
-}
-
-
-export class Just<T> extends Maybe<T> {
-  static create<B>(val: B): Just<B> {
-    return new Just<B>(val);
-  }
-
-  constructor(val: T) {
-    super();
-    this._value = val;
   }
 }
 
@@ -207,23 +221,23 @@ export class Nothing<T> extends Maybe<T> {
     return nothingFn();
   }
 
-  join(): Nothing<T> {
-    return new Nothing<T>();
+  join<A>(this: Maybe<Maybe<A>>): Maybe<A> {
+    return new Nothing<A>();
   }
 
-  map<B>(_: MaybeMapping<T,B>): Nothing<B> {
+  map<B>(_: MaybeMapping<T,B>): Maybe<B> {
     return new Nothing<B>();
   }
 
-  filter(_: MaybePredicate<T>): Nothing<T> {
+  filter(_: MaybePredicate<T>): Maybe<T> {
     return new Nothing<T>();
   }
 
-  ap<A,B>(this: Maybe<(val: A) =>B>, _: Maybe<A>): Nothing<B> {
+  ap<A,B>(this: Maybe<(val: A) =>B>, _: Maybe<A>): Maybe<B> {
     return new Nothing<B>();
   }
 
-  chain<B>(_: (val: T) => Maybe<B>): Nothing<B> {
+  chain<B>(_: (val: T) => Maybe<B>): Maybe<B> {
     return new Nothing<B>();
   }
 

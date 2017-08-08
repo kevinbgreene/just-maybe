@@ -4,3 +4,4 @@ dist/
 testing/
 tmp/
 *.log
+log/

@@ -6,7 +6,11 @@
     "rootDir": ".",
     "outDir": "./testing",
     "noImplicitAny": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "types": [
+      "@types/mocha",
+      "@types/chai"
+    ]
   },
   "files": [
     "./tests/maybe.spec.ts"

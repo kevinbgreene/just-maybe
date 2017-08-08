@@ -1,6 +1,6 @@
 {
   "name": "just-maybe",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A basic Maybe type",
   "main": "./dist/bundles/just-maybe.js",
   "typings": "./dist/index.d.ts",
@@ -21,11 +21,11 @@
     "maybe"
   ],
   "devDependencies": {
-    "@types/chai": "3.5.0",
-    "@types/mocha": "2.2.41",
-    "chai": "3.5.0",
-    "mocha": "3.2.0",
-    "typescript": "2.2.2",
-    "webpack": "2.4.1"
+    "@types/chai": "^4.0.2",
+    "@types/mocha": "^2.2.41",
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0",
+    "typescript": "^2.4.2",
+    "webpack": "^3.4.1"
   }
 }
