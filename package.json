@@ -1,6 +1,6 @@
 {
   "name": "just-maybe",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A basic Maybe type",
   "main": "./dist/bundles/just-maybe.js",
   "typings": "./dist/index.d.ts",
@@ -10,6 +10,10 @@
     "test": "npm run build:test; mocha ./testing/tests/maybe.spec.js;"
   },
   "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevinbgreene/just-maybe.git"
+  },
   "license": "MIT",
   "files": [
     "dist/"
